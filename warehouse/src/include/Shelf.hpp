@@ -6,7 +6,7 @@
 
 
 
-class Shelf{
+class Shelf:public IContainer{
 
     public:
     std::array<Pallet, 4> pallets;
@@ -14,15 +14,9 @@ class Shelf{
     Shelf();
     bool swapPallets(int slot1, int slot2);
 
-    bool isEmpty(){
-        
-    }
+    bool isEmpty();
 
-    bool isFull(){
-       
-    }
-
-
+    bool isFull();
 
 };
 

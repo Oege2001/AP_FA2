@@ -20,23 +20,10 @@ class Pallet{
         bool takeOne();
         bool putOne();
 
-        bool isEmpty(){
+        bool isEmpty();
+        bool isFull();
 
-        }
-
-        bool isFull(){
         
-        }
-
-
-
-
-
-
-
-
-
-
-
-
 };
+
+
