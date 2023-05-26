@@ -1,7 +1,7 @@
 #include "include/Container.hpp"
 #include "include/Pallet.hpp"
 
-Pallet::Pallet(std::string itemName, int itemCapacity){
+Pallet::Pallet(std::string itemName, int itemCapacity, int itemCount){
     // Set the itemName and itemCapacity to the parameters.
     this->itemName = itemName;
     this->itemCapacity = itemCapacity;

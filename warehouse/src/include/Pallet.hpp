@@ -11,7 +11,7 @@ class Pallet{
         int itemCapacity;
 
     public:
-        Pallet(std::string itemName, int itemCapacity);
+        Pallet(std::string itemName, int itemCapacityn, int itemCount);
         Pallet();
         std::string getItemName();
         int getItemCount();

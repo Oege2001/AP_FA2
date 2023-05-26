@@ -18,6 +18,7 @@ bool Shelf::swapPallets(int slot1, int slot2){
     return false;
     // Else swap the pallets at slot1 and slot2 and return true.
     else{
+        
         Pallet temp = pallets[slot1];
         pallets[slot1] = pallets[slot2];
         pallets[slot2] = temp;
