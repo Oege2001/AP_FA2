@@ -2,42 +2,42 @@
 #include "include/Pallet.hpp"
 
 Pallet::Pallet(std::string itemName, int itemCapacity){
-    // Set the itemname and itemcapacity to the given parameters.
+    // Set the itemName and itemCapacity to the parameters.
     this->itemName = itemName;
     this->itemCapacity = itemCapacity;
-    // Set the itemcount to 0.
+    // Set the itemCount to 0.
     this->itemCount = 0;
 };
 
 Pallet::Pallet(){
-    // Set the itemname to empty string.
+    // Set the itemName to an empty string.
     this->itemName = "";
-    // Set the itemcapacity to 0.
+    // Set the itemCapacity to 0.
     this->itemCapacity = 0;
-    // Set the itemcount to 0.
+    // Set the itemCount to 0.
     this->itemCount = 0;
 };
 
 std::string Pallet::getItemName(){
-    // Return the itemname.
+    // Return the itemName.
     return itemName;
 };
 
 int Pallet::getItemCount(){
-    // Return the itemcount.
+    // Return the itemCount.
     return itemCount;
 };
 
 int Pallet::getRemainingSpace(){
-    // Return the itemcapacity - itemcount.
+    // Return the itemCapacity minus itemCount.
     return itemCapacity - itemCount;
 };
 
 bool Pallet::reallocateEmptyPallet(std::string itemName, int itemCapacity){
-    // If the itemcount is not 0 return false.
+    // If the itemCount is not equal to 0 return false.
     if (getItemCount() != 0)
     return false;
-    // Else set the itemname and itemcapacity to the given parameters.
+    // Else set the itemName and itemCapacity to the given parameters.
     else{
         this->itemName = itemName;
         this->itemCapacity = itemCapacity;
@@ -46,10 +46,10 @@ bool Pallet::reallocateEmptyPallet(std::string itemName, int itemCapacity){
 };
 
 bool Pallet::takeOne(){
-    // If the itemcount is 0 return false.
+    // If the itemCount is 0 return false.
     if (getItemCount() == 0)
     return false;
-    // Else decrease the itemcount by 1 and return true.
+    // Else decrease the itemCount by 1 and return true.
     else{
         itemCount--;
         return true;
@@ -57,45 +57,18 @@ bool Pallet::takeOne(){
 };
 
 bool Pallet::putOne(){
-    // If the itemcount is equal to itemcapacity return false.
+    // If the itemCount is equal to itemCapacity return false.
     if (getItemCount() == itemCapacity)
     return false;
-    // Else increase the itemcount by 1 and return true.
+    // Else increase the itemCount by 1 and return true.
     else{
         itemCount++;
         return true;
     }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 bool Pallet::isEmpty(){
-    // First check if itemcount is empty if true then return true else return false.
+    // Check if itemCount is empty if true then return true, else return false.
             if (getItemCount() == 0)
             return true;
             else 
@@ -104,7 +77,7 @@ bool Pallet::isEmpty(){
         };
 
 bool Pallet::isFull(){
-    // First check if remainingspace is empty if true return true else return false.
+    // Check if remainingSpace is empty if true return true, else return false.
             if (getRemainingSpace()== 0)
             return true;
             else 
