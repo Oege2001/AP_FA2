@@ -3,15 +3,7 @@
 #include "include/Shelf.hpp"
 
 Warehouse::Warehouse(){
-    // // Create a new employee.
-    // // Create a new warehouse.
-    // Employee employee("Johannes", true);
-    // // Add the employee to the warehouse.
-    // addEmployee(employee);
-    // // Create a new shelf.
-    // Shelf shelf;
-    // // Add the shelf to the warehouse.
-    // addShelf(shelf);
+    // Create an empty vector for employees and shelves.
     employees = {};
     shelves = {};
 

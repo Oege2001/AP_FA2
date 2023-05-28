@@ -23,13 +23,13 @@ int main(void) {
 
 
     // Picking items and rearranging shelves
-    // We rearrange shelves by sorting them on item count
+    // We raerrange shelves by sorting them on item count
     if(warehouse.rearrangeShelf(shelf))
     {
         std::cout << "Rearranged shelf" << std::endl;
     };
     // We can also pick items and a certain amount
-    if(warehouse.pickItems("Shoes", 40))
+    if(warehouse.pickItems("Shoes", 10))
     {
         std::cout << "Picked items" << std::endl;
     };
