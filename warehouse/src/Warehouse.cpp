@@ -31,7 +31,10 @@ void Warehouse::addShelf(Shelf shelf){
 
 bool Warehouse::rearrangeShelf(Shelf& shelf)
 {
+
+// Create a bool running and set it to false.
 bool running = false;
+
 
 for (int i =0; i < employees.size(); i++)
 {   // if employee has forklift certificate and is not busy. set running to true.
@@ -39,7 +42,7 @@ for (int i =0; i < employees.size(); i++)
     {
         running = true;
         while (running)
-        // while running is true, set running to false and if itemCount on pallet 1 is bigger then on pallet 2 than swap pallets. 
+        // while running is true, set running to false and if itemcount on pallet 1 is bigger then on pallet 2 than swap pallets. 
         {
             running = false;
             for (int i = 0; i < shelf.pallets.size() - 1; i++)
@@ -63,48 +66,22 @@ for (int i =0; i < employees.size(); i++)
 
 
 bool Warehouse::pickItems(std::string itemName, int itemCount) {
-    // Had some help from chatgpt with this function.
     // If the itemCount is less than 1, return false.
     if (itemCount < 1)
         return false;
 
     // Check conditions with a while loop
     
-    bool employeeNotBusy = false;
     bool shelfNotEmpty = false;
-    bool shelfFull = false;
     bool shelfContainsItem = false;
     bool enoughItems = false;
-    bool employeeHasForklift = false;
 
     int i = 0;
-    // while i is lower then the size of the employees vector, check if the employee is busy. if not set employeeNotBusy to true and break the loop.
-    // else increment i.
-    while (i < employees.size()) {
-        if (employees[i].getBusy() == false) {
-            employeeNotBusy = true;
-            break;
-        }
-        i++;
-    }
-
-    i = 0;
     // while i is lower then the size of shelves , check if the shelf is empty. if not set shelfNotEmpty to true and break the loop.
     // else increment i.
     while (i < shelves.size()) {
         if (shelves[i].isEmpty() == false) {
             shelfNotEmpty = true;
-            break;
-        }
-        i++;
-    }
-
-    i = 0;
-    // while i is lower then the size of shelves , check if the shelf is full. if not set shelfFull to true and break the loop.
-    // else increment i.
-    while (i < shelves.size()) {
-        if (shelves[i].isFull() == true) {
-            shelfFull = true;
             break;
         }
         i++;
@@ -131,30 +108,30 @@ bool Warehouse::pickItems(std::string itemName, int itemCount) {
         i++;
     }
 
-    i = 0;
-    // while i is lower then the size of employees , check if the employee has a forklift certificate. if not set employeeHasForklift to true and break the loop.
-    // else increment i.
-    while (i < employees.size()) {
-        if (employees[i].getForkliftCertificate() == true) {
-            employeeHasForklift = true;
-            break;
-        }
-        i++;
-    }
 
     // If any of the conditions are not met, return false.
-    if (!employeeNotBusy || !shelfNotEmpty || shelfFull || !shelfContainsItem || !enoughItems || !employeeHasForklift)
+    if (!shelfNotEmpty || !shelfContainsItem || !enoughItems)
         return false;
 
-    // Else pick the items and return true.
-    for (int i = 0; i < shelves.size(); i++) {
-        if (shelves[i].pallets[i].getItemName() == itemName) {
-            // Take one item from each pallet keep doing this till we got the amount of items we wanted.
-            while (int j = 0; j < itemCount; j++)
-                shelves[j].pallets[j].takeOne();
-            return true;
+
+    int itemsTaken = 0;
+    // set itemstaken to 0 and loop through the shelves. loop through the pallets and if the pallet contains the itemname and the itemcount is bigger then 0
+    // take one item from the pallet and increment itemstaken. if itemstaken is equal to itemcount return true.
+    for (auto& shelf : shelves) {
+        for (auto& pallet : shelf.pallets) {
+            if (pallet.getItemName() == itemName) {
+                while (itemsTaken < itemCount) {
+                    if (pallet.getItemCount() > 0) {
+                        pallet.takeOne();
+                        itemsTaken++;
+                    } else {
+                        break;
+                    }
+                }
+                if (itemsTaken == itemCount)
+                    return true;
+            }
         }
     }
-
     return false; // Return false if no matching item is found
 }

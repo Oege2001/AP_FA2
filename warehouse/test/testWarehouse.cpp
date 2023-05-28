@@ -256,36 +256,38 @@ TEST_CASE("Test empty item", "Warehouse::pickItems")
     REQUIRE(!succesful);
 }
 
-TEST_CASE("Test expected case", "Warehouse::pickItems")
-{
-    Warehouse warehouse = Warehouse();
-    Shelf shelf1 = Shelf();
+TEST_CASE("Test pick items from warehouse", "Warehouse::pickItems") {
+    // Create a warehouse
+    Warehouse warehouse;
+
+    // Create shelves and add them to the warehouse
+    Shelf shelf1;
     shelf1.pallets = {
-        Pallet("Books", 100, 40), 
-        Pallet("Boxes", 100, 10), 
-        Pallet("Books", 100, 20), 
+        Pallet("Books", 100, 40),
+        Pallet("Boxes", 100, 10),
+        Pallet("Books", 100, 20),
         Pallet("Books", 100, 20)
     };
-    
     warehouse.addShelf(shelf1);
 
-
+    // Ensure initial item counts on the shelf
     REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 40);
     REQUIRE(warehouse.shelves[0].pallets[1].getItemCount() == 10);
     REQUIRE(warehouse.shelves[0].pallets[2].getItemCount() == 20);
     REQUIRE(warehouse.shelves[0].pallets[3].getItemCount() == 20);
 
-    bool succesful = warehouse.pickItems("Books", 10);
-    std :: cout << succesful << std :: endl;
+    // Attempt to pick 10 "Books" from the warehouse
+    bool successful = warehouse.pickItems("Books", 10);
 
-    REQUIRE(succesful);
+    // Verify the picking was successful
+    REQUIRE(successful);
 
-    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 20);
+    // Verify the updated item counts on the shelf
+    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 30);
     REQUIRE(warehouse.shelves[0].pallets[1].getItemCount() == 10);
     REQUIRE(warehouse.shelves[0].pallets[2].getItemCount() == 20);
     REQUIRE(warehouse.shelves[0].pallets[3].getItemCount() == 20);
-};
-
+}
 TEST_CASE("Test not enough items for the amount you want to pick", "Warehouse::pickItems")
 {
     Warehouse warehouse = Warehouse();
