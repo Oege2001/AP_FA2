@@ -235,3 +235,85 @@ TEST_CASE("Rearrange shelf with quallified, but busy, employee", "Warehouse::rea
     REQUIRE(warehouse.shelves[0].pallets[2].getItemCount() == 30);
     REQUIRE(warehouse.shelves[0].pallets[3].getItemCount() == 10);
 }
+
+// Test cases for Warehouse::pickItems
+
+
+TEST_CASE("Invalid itemCount") {
+    Warehouse warehouse = Warehouse();
+    warehouse.addShelf(Shelf());
+    warehouse.addEmployee(Employee("Bob", true));
+    warehouse.shelves[0].pallets = {
+        Pallet("Books", 100, 10),
+        Pallet("Books", 100, 15),
+        Pallet("Books", 100, 20),
+        Pallet("Books", 100, 25)
+    };
+    // Pick with itemCount less than 1
+    bool success = warehouse.pickItems("Books", 0);
+
+    // Check that picking fails due to invalid itemCount
+    REQUIRE(success == false);
+
+    // Check that the item counts remain unchanged
+    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 10);
+    REQUIRE(warehouse.shelves[1].pallets[2].getItemCount() == 15);
+    }
+
+TEST_CASE("Pick available items") {
+
+    Warehouse warehouse = Warehouse();
+    warehouse.addShelf(Shelf());
+    warehouse.addEmployee(Employee("Bob", true));
+    warehouse.shelves[0].pallets = {
+        Pallet("Books", 100, 10),
+        Pallet("Books", 100, 15),
+        Pallet("Books", 100, 20),
+        Pallet("Books", 100, 25)
+    };
+    // Pick 20 items of "Books" from the warehouse
+    bool success = warehouse.pickItems("Books", 20);
+
+    // Check that the picking was successful
+    REQUIRE(success == true);
+
+    // Check the updated item counts
+    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 0);
+    REQUIRE(warehouse.shelves[1].pallets[2].getItemCount() == 5);
+    }
+
+TEST_CASE("Not enough items available") {
+    Warehouse warehouse = Warehouse();
+    warehouse.addShelf(Shelf());
+    warehouse.addEmployee(Employee("Bob", true));
+    
+    // Pick 30 items of "Books" from the warehouse
+    bool success = warehouse.pickItems("Books", 30);
+
+    // Check that picking fails due to insufficient items
+    REQUIRE(success == false);
+
+    // Check that the item counts remain unchanged
+    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 10);
+    REQUIRE(warehouse.shelves[1].pallets[2].getItemCount() == 15);
+    }
+
+TEST_CASE("No matching items available") {
+    Warehouse warehouse = Warehouse();
+    warehouse.addShelf(Shelf());
+    warehouse.addEmployee(Employee("Bob", true));
+    warehouse.shelves[0].pallets = {
+        Pallet("Books", 100, 10),
+        Pallet("Books", 100, 15),
+        Pallet("Books", 100, 20),
+        Pallet("Books", 100, 25)
+    };
+    // Pick 5 items of "Toy Bears" from the warehouse
+    bool success = warehouse.pickItems("Toy Bears", 5);
+    // Check that picking fails due to no matching items
+    REQUIRE(success == false);
+
+    // Check that the item counts remain unchanged
+    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 10);
+    REQUIRE(warehouse.shelves[1].pallets[2].getItemCount() == 15);
+    }
