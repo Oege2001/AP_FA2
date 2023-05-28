@@ -16,22 +16,23 @@ int main(void) {
 
     // Add the shelf into the warehouse
     warehouse.addShelf(shelf);
-    // Create an employee with no forkliftCertificate
+    // Create an employee with forkliftCertificate
     Employee Jacob = Employee("Jacob", true);
-    // Add an employee to the warehouse who doesn't have a forkliftCertificate
+    // Add an employee to the warehouse whom has a forkliftCertificate
     warehouse.addEmployee(Jacob);
 
 
     // Picking items and rearranging shelves
-    // We raerrange shelves by sorting them on item count
-    if(warehouse.rearrangeShelf(shelf))
-    {
-        std::cout << "Rearranged shelf" << std::endl;
-    };
     // We can also pick items and a certain amount
     if(warehouse.pickItems("Shoes", 10))
     {
         std::cout << "Picked items" << std::endl;
+    };
+
+    // We raerrange shelves by sorting them on item count
+    if(warehouse.rearrangeShelf(shelf))
+    {
+        std::cout << "Rearranged shelf" << std::endl;
     };
 
 }
