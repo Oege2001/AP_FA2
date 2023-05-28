@@ -39,7 +39,7 @@ for (int i =0; i < employees.size(); i++)
     {
         running = true;
         while (running)
-        // while running is true, set running to false and if itemcount on pallet 1 is bigger then on pallet 2 than swap pallets. 
+        // while running is true, set running to false and if itemCount on pallet 1 is bigger then on pallet 2 than swap pallets. 
         {
             running = false;
             for (int i = 0; i < shelf.pallets.size() - 1; i++)
@@ -150,7 +150,7 @@ bool Warehouse::pickItems(std::string itemName, int itemCount) {
     for (int i = 0; i < shelves.size(); i++) {
         if (shelves[i].pallets[i].getItemName() == itemName) {
             // Take one item from each pallet keep doing this till we got the amount of items we wanted.
-            for (int j = 0; j < itemCount; j++)
+            while (int j = 0; j < itemCount; j++)
                 shelves[j].pallets[j].takeOne();
             return true;
         }

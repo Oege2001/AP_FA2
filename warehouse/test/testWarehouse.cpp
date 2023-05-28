@@ -1,5 +1,4 @@
 #include "include/catch.hpp"
-
 #include "../src/include/Warehouse.hpp"
 #include <iostream>
 
@@ -239,81 +238,106 @@ TEST_CASE("Rearrange shelf with quallified, but busy, employee", "Warehouse::rea
 // Test cases for Warehouse::pickItems
 
 
-TEST_CASE("Invalid itemCount") {
+
+
+
+TEST_CASE("Test empty item", "Warehouse::pickItems")
+{
     Warehouse warehouse = Warehouse();
-    warehouse.addShelf(Shelf());
-    warehouse.addEmployee(Employee("Bob", true));
-    warehouse.shelves[0].pallets = {
-        Pallet("Books", 100, 10),
-        Pallet("Books", 100, 15),
-        Pallet("Books", 100, 20),
-        Pallet("Books", 100, 25)
+    Shelf shelf1 = Shelf();
+    shelf1.pallets = {
+        Pallet("Books", 100, 0), 
+        Pallet("Boxes", 100, 0), 
+        Pallet("Books", 100, 0), 
+        Pallet("Books", 100, 0)
     };
-    // Pick with itemCount less than 1
-    bool success = warehouse.pickItems("Books", 0);
+    warehouse.addShelf(shelf1);
+    bool succesful = warehouse.pickItems("Books", 20);
+    REQUIRE(!succesful);
+}
 
-    // Check that picking fails due to invalid itemCount
-    REQUIRE(success == false);
-
-    // Check that the item counts remain unchanged
-    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 10);
-    REQUIRE(warehouse.shelves[1].pallets[2].getItemCount() == 15);
-    }
-
-TEST_CASE("Pick available items") {
-
+TEST_CASE("Test expected case", "Warehouse::pickItems")
+{
     Warehouse warehouse = Warehouse();
-    warehouse.addShelf(Shelf());
-    warehouse.addEmployee(Employee("Bob", true));
-    warehouse.shelves[0].pallets = {
-        Pallet("Books", 100, 10),
-        Pallet("Books", 100, 15),
-        Pallet("Books", 100, 20),
-        Pallet("Books", 100, 25)
+    Shelf shelf1 = Shelf();
+    shelf1.pallets = {
+        Pallet("Books", 100, 40), 
+        Pallet("Boxes", 100, 10), 
+        Pallet("Books", 100, 20), 
+        Pallet("Books", 100, 20)
     };
-    // Pick 20 items of "Books" from the warehouse
-    bool success = warehouse.pickItems("Books", 20);
-
-    // Check that the picking was successful
-    REQUIRE(success == true);
-
-    // Check the updated item counts
-    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 0);
-    REQUIRE(warehouse.shelves[1].pallets[2].getItemCount() == 5);
-    }
-
-TEST_CASE("Not enough items available") {
-    Warehouse warehouse = Warehouse();
-    warehouse.addShelf(Shelf());
-    warehouse.addEmployee(Employee("Bob", true));
     
-    // Pick 30 items of "Books" from the warehouse
-    bool success = warehouse.pickItems("Books", 30);
+    warehouse.addShelf(shelf1);
 
-    // Check that picking fails due to insufficient items
-    REQUIRE(success == false);
 
-    // Check that the item counts remain unchanged
-    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 10);
-    REQUIRE(warehouse.shelves[1].pallets[2].getItemCount() == 15);
-    }
+    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 40);
+    REQUIRE(warehouse.shelves[0].pallets[1].getItemCount() == 10);
+    REQUIRE(warehouse.shelves[0].pallets[2].getItemCount() == 20);
+    REQUIRE(warehouse.shelves[0].pallets[3].getItemCount() == 20);
 
-TEST_CASE("No matching items available") {
+    bool succesful = warehouse.pickItems("Books", 10);
+    std :: cout << succesful << std :: endl;
+
+    REQUIRE(succesful);
+
+    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 20);
+    REQUIRE(warehouse.shelves[0].pallets[1].getItemCount() == 10);
+    REQUIRE(warehouse.shelves[0].pallets[2].getItemCount() == 20);
+    REQUIRE(warehouse.shelves[0].pallets[3].getItemCount() == 20);
+};
+
+TEST_CASE("Test not enough items for the amount you want to pick", "Warehouse::pickItems")
+{
     Warehouse warehouse = Warehouse();
-    warehouse.addShelf(Shelf());
-    warehouse.addEmployee(Employee("Bob", true));
-    warehouse.shelves[0].pallets = {
-        Pallet("Books", 100, 10),
-        Pallet("Books", 100, 15),
-        Pallet("Books", 100, 20),
-        Pallet("Books", 100, 25)
+    Shelf shelf1 = Shelf();
+    shelf1.pallets = {
+        Pallet("Books", 100, 40), 
+        Pallet("Boxes", 100, 10), 
+        Pallet("Books", 100, 20), 
+        Pallet("Books", 100, 20)
     };
-    // Pick 5 items of "Toy Bears" from the warehouse
-    bool success = warehouse.pickItems("Toy Bears", 5);
-    // Check that picking fails due to no matching items
-    REQUIRE(success == false);
 
-    // Check that the item counts remain unchanged
-    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 10);
-    REQUIRE(warehouse.shelves[1].pallets[2].getItemCount() == 15);
-    }
+    warehouse.addShelf(shelf1);
+
+    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 40);
+    REQUIRE(warehouse.shelves[0].pallets[1].getItemCount() == 10);
+    REQUIRE(warehouse.shelves[0].pallets[2].getItemCount() == 20);
+    REQUIRE(warehouse.shelves[0].pallets[3].getItemCount() == 20);
+
+    bool succesful = warehouse.pickItems("Books", 100);
+
+    REQUIRE(!succesful);
+
+    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 40);
+    REQUIRE(warehouse.shelves[0].pallets[1].getItemCount() == 10);
+    REQUIRE(warehouse.shelves[0].pallets[2].getItemCount() == 20);
+    REQUIRE(warehouse.shelves[0].pallets[3].getItemCount() == 20);
+};
+
+TEST_CASE("Test with a negative item count", "Warehouse::pickItems")
+{
+    Warehouse warehouse = Warehouse();
+    Shelf shelf1 = Shelf();
+    shelf1.pallets = {
+        Pallet("Books", 100, 40), 
+        Pallet("Boxes", 100, 10), 
+        Pallet("Books", 100, 20), 
+        Pallet("Books", 100, 20)
+    };
+
+    warehouse.addShelf(shelf1);
+
+    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 40);
+    REQUIRE(warehouse.shelves[0].pallets[1].getItemCount() == 10);
+    REQUIRE(warehouse.shelves[0].pallets[2].getItemCount() == 20);
+    REQUIRE(warehouse.shelves[0].pallets[3].getItemCount() == 20);
+
+    bool succesful = warehouse.pickItems("Books", -20);
+
+    REQUIRE(!succesful);
+
+    REQUIRE(warehouse.shelves[0].pallets[0].getItemCount() == 40);
+    REQUIRE(warehouse.shelves[0].pallets[1].getItemCount() == 10);
+    REQUIRE(warehouse.shelves[0].pallets[2].getItemCount() == 20);
+    REQUIRE(warehouse.shelves[0].pallets[3].getItemCount() == 20);
+};
