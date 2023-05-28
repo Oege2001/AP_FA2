@@ -2,7 +2,11 @@
 In dit project ga ik een warehouse na maken op basis van de UML Warehouse opdracht Domain Design & Implementatie.
 Dit gaat gedaan worden in C##. 
 
-Het doel is dat ik hiervoor ook testcases ga maken, en dat dit checkt of al mijn functies correct werken.
+In deze repository zult u kunnen vinden:
+- Testcases voor de functie pickItem.
+- Hpp en cpp files voor Employee, Pallet, Shelf en Warehouse.
+- Een hpp file van IContainer.
+- Een main met code zodat het zichtbaar is dat het allemaal werkt.
 
 
 
