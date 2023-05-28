@@ -4,14 +4,14 @@
 
 
 
-class Pallet{
+class Pallet : public IContainer{
     private:
         int itemCount;
         std::string itemName;
         int itemCapacity;
 
     public:
-        Pallet(std::string itemName, int itemCapacityn, int itemCount);
+        Pallet(std::string itemName, int itemCapacity, int itemCount);
         Pallet();
         std::string getItemName();
         int getItemCount();

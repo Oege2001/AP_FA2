@@ -1,19 +1,22 @@
 #include "include/Employee.hpp"
 
-// Employee::Employee(const std::string name, bool forkliftCertificate){
-//     // Set the name and forkliftCertificate to the given parameters.
-//     this->busy = false;
-// }
+
+Employee::Employee(std::string name, bool forkliftCertificate)
+{
+    this->name = name;
+    this->forkliftCertificate = forkliftCertificate;
+    this->busy = false;
+}
 
 
 std::string Employee::getName(){
     // Return the name.
-    return name;
+    return this -> name;
 }
 
 bool Employee::getBusy(){
     // Return the busy status.
-    return busy;
+    return this -> busy;
 }
 
 void Employee::setBusy(bool busy){
@@ -23,12 +26,12 @@ void Employee::setBusy(bool busy){
 
 bool Employee::getForkliftCertificate(){
     // Return the forkliftCertificate status.
-    return forkliftCertificate;
+    return this -> forkliftCertificate;
 }
 
 void Employee::setForkliftCertificate(bool forkliftCertificate){
     // Set the forkliftCertificate status to the given parameter.
-    this->forkliftCertificate = forkliftCertificate;
+    this -> forkliftCertificate = forkliftCertificate;
 }
 
 
